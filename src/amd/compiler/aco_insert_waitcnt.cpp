@@ -705,7 +705,8 @@ void handle_block(Program *program, Block& block, wait_ctx& ctx)
 
 void insert_wait_states(Program* program)
 {
-   wait_ctx out_ctx[program->blocks.size()]; /* per BB ctx */
+   wait_ctx *out_ctx = new wait_ctx[program->blocks.size()];
+   // wait_ctx out_ctx[program->blocks.size()]; /* per BB ctx */
    for (unsigned i = 0; i < program->blocks.size(); i++)
       out_ctx[i] = wait_ctx(program);
 
@@ -723,6 +724,7 @@ void insert_wait_states(Program* program)
 
       handle_block(program, current, in);
    }
+   delete [] out_ctx;
 }
 
 }
